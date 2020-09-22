@@ -36,6 +36,7 @@ class Circle:
 
 def increase(event, obj):
     obj.increase()
+    root.after(50, lambda: increase(event, obj))
 
 root = tk.Tk()
 canv = tk.Canvas(root, width=600, height=600, bg='white')
