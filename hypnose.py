@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
+import math
 
 class Circle:
     def __init__(self, canvas, center, radius, thickness, color='green', inc=10):
@@ -24,16 +25,10 @@ class Circle:
     def increase(self):
         self.canvas.delete(self.oval)
         self.radius += self.inc
-        self.create()
-
-    def rotate(self, angle=None):
-        if self.start > 360:
-            self.start -= 360
-        if angle:
-            self.start += angle
-        else:
-            self.start += self.ang_rot
-        self.canvas.delete(self.arc)
+        width = int(self.canvas['width'])
+        height = int(self.canvas['height'])
+        if self.radius > math.sqrt(width**2 + height**2)/2:
+            self.radius = 10
         self.create()
 
     def __del__(self):
