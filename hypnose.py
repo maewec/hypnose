@@ -3,13 +3,23 @@
 import tkinter as tk
 import math
 
+color_list = ('black', 'blue', 'cyan', 'gray', 'cyan', 'orange') * 10
+
 class Circle:
-    def __init__(self, canvas, center, radius, thickness, color='green', inc=10):
+    count = 0
+
+    def __init__(self, canvas, center, radius, thickness, color=None, inc=10):
+        self.id = Circle.count
+        Circle.count += 1
+
         self.canvas = canvas
         self.center = center
         self.radius = radius
         self.thickness = thickness
-        self.color = color
+        if color:
+            self.color = color
+        else:
+            self.color = color_list[self.id]
         self.inc=inc
         self.create()
 
@@ -35,7 +45,8 @@ class Circle:
         self.canvas.delete(self.oval)
 
 def increase(event, obj):
-    obj.increase()
+    for i in obj:
+        i.increase()
     root.after(50, lambda: increase(event, obj))
 
 root = tk.Tk()
@@ -44,7 +55,9 @@ canv.pack()
 but = tk.Button(root, text='Расширить')
 but.pack()
 
-oval = Circle(canv, (300, 300), 100, 10, 'blue')
+rad_list = [x for x in range(20, 500, 10)]
+oval_list = [Circle(canv, (300, 300), x, 11, inc=10) for x in rad_list]
+#oval = Circle(canv, (300, 300), 100, 11, 'blue')
 
-but.bind('<Button-1>', lambda event: increase(event, oval))
+but.bind('<Button-1>', lambda event: increase(event, oval_list))
 root.mainloop()
